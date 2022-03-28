@@ -17,6 +17,7 @@ from datetime import datetime
 import logging
 import setup_rtd
 import paramiko
+import ftplib
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -97,8 +98,9 @@ class Profile(object):
                 elif sensor == 'Moana':
                     with open(self.path + 'status.txt') as f_ble:
                         l_moana = os.listdir(self.path + 'logs/raw/Moana')
-                        l_moana = [(int(e.split('.')[0].split('_')[-1]), e) for e in l_moana] # if
-                                   # setup_rtd.parameters['Moana_SN'] in e]
+                        if len(l_moana) > 0:
+                            l_moana = [(int(e.split('.')[0].split('_')[-1]), e) for e in l_moana] # if
+                                       # setup_rtd.parameters['Moana_SN'] in e]
                         if len(l_moana) != c_moana:
                             print('New Moana sensor file transferred to the RPi')
                             time.sleep(10)
@@ -117,7 +119,7 @@ class Profile(object):
                                                       self.gear)  # set sensor type as WiFi or Bluetooth
 
                                 leMOLT = [self.add_eMOLT_header(e[0], e[1], sensor) for e in ldata]  # creates files with eMOLT format
-                                self.eMOLT_cloud(leMOLT, sensor)  # sends merged data to eMOLT endpoint
+                                self.eMOLT_cloud(leMOLT)  # sends merged data to eMOLT endpoint
                                 self.cloud(ldata, sensor)
                                 print('waiting for the next profile...')
 
@@ -131,7 +133,7 @@ class Profile(object):
                         ldata = Merge().merge(n_lowell, sensor, self.gear)  # merges sensor data and GPS
                         
                         leMOLT = [self.add_eMOLT_header(e[0], e[1], sensor) for e in ldata]  # creates files with eMOLT format
-                        self.eMOLT_cloud(leMOLT, sensor)  # sends merged data to eMOLT endpoint
+                        self.eMOLT_cloud(leMOLT)  # sends merged data to eMOLT endpoint
                         self.cloud(ldata, sensor)  # sends merged data to BDC endpoint
                         print('waiting for the next profile...')
 
@@ -170,7 +172,7 @@ class Profile(object):
                 Transfer('/home/ec2-user/rtd/vessels/' + self.vessel_name + '/').upload(
                     'logs/raw/{sensor}/'.format(sensor=sensor) + file, 'sensor/{sensor}/'.format(sensor=sensor) + file)
 
-    def eMOLT_cloud(self, ldata, sensor):
+    def eMOLT_cloud(self, ldata):
         for filename, df in ldata:
             # print u
             session = ftplib.FTP('', '', '')
@@ -238,15 +240,13 @@ class Profile(object):
         return
 
 
-
 # when power on
 while True:
-    #try:
-    print("RPi started recording the main routine.\n")
-        # set type of sensor 'WiFi' or 'Bluetooth' or both
-    Profile(setup_rtd.parameters['sensor_type']).main()
-    #except:
-    #    print('Unexpected error:', sys.exc_info()[0])
-    #    time.sleep(60)
+    try:
+        print("RPi started recording the main routine.\n")
+        Profile(setup_rtd.parameters['sensor_type']).main()
+    except:
+       print('Unexpected error:', sys.exc_info()[0])
+       time.sleep(60)
 
 
