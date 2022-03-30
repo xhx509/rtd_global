@@ -131,7 +131,7 @@ class Plotting(object):
 
         ax.set_ylim(ax.get_ylim()[::-1])
 
-        plt.title("Profiles temperature vs pressure comparison", fontsize=20)
+        plt.title("Profiles temperature vs pressure comparison on {date}".format(date=self.df['DATETIME'].iloc[-1]), fontsize=20)
         plt.legend(fontsize=15)
 
         cbar = plt.colorbar(tem, shrink=0.5, aspect=20)
