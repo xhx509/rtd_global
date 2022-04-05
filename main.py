@@ -118,8 +118,8 @@ class Profile(object):
                                 ldata = Merge().merge(l_rec_file, sensor,
                                                       self.gear)  # set sensor type as WiFi or Bluetooth
 
-                                leMOLT = [self.add_eMOLT_header(e[0], e[1], sensor) for e in ldata]  # creates files with eMOLT format
-                                self.eMOLT_cloud(leMOLT)  # sends merged data to eMOLT endpoint
+                                # leMOLT = [self.add_eMOLT_header(e[0], e[1], sensor) for e in ldata]  # creates files with eMOLT format
+                                # self.eMOLT_cloud(leMOLT)  # sends merged data to eMOLT endpoint
                                 self.cloud(ldata, sensor)
                                 print('waiting for the next profile...')
 
@@ -132,8 +132,8 @@ class Profile(object):
                         self.connect_wireless(n_lowell, 'Lowell')  # sends raw data to BDC endpoint
                         ldata = Merge().merge(n_lowell, sensor, self.gear)  # merges sensor data and GPS
                         
-                        leMOLT = [self.add_eMOLT_header(e[0], e[1], sensor) for e in ldata]  # creates files with eMOLT format
-                        self.eMOLT_cloud(leMOLT)  # sends merged data to eMOLT endpoint
+                        #leMOLT = [self.add_eMOLT_header(e[0], e[1], sensor) for e in ldata]  # creates files with eMOLT format
+                        # self.eMOLT_cloud(leMOLT)  # sends merged data to eMOLT endpoint
                         self.cloud(ldata, sensor)  # sends merged data to BDC endpoint
                         print('waiting for the next profile...')
 
