@@ -64,6 +64,7 @@ def full_demo(fol, mac):
     if not lc.file_clear():
         print('error file_clear')
 
+    time.sleep(20)
     g = open('/home/pi/rtd_global/status.txt', 'w')
     g.write('1')
     g.close()
