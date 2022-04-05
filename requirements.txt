@@ -86,7 +86,6 @@ pycparser==2.19
 pycrypto==2.6.1
 pyflakes==2.0.0
 pyftpdlib==1.5.5
-pygame==1.9.4.post1
 Pygments==2.3.1
 PyGObject==3.30.4
 pyinotify==0.9.6
@@ -100,6 +99,7 @@ pyperclip==1.6.4
 pyproj==1.9.6
 pyserial==3.4
 pyshp==2.1.0
+pysftp==0.2.9
 pytz==2019.3
 pyxdg==0.25
 pyzmq==17.1.2
