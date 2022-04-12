@@ -81,7 +81,7 @@ class Plotting(object):
 
         plt.tick_params(axis='both', labelsize='large')
 
-        plt.savefig('/home/pi/Desktop/Profiles/' + self.filename + '_profile.png')
+        plt.savefig('/home/pi/Desktop/Profiles/' + self.filename + '/' + self.filename + '_profile.png')
 
         plt.close()
 
@@ -140,7 +140,7 @@ class Plotting(object):
 
         plt.tick_params(axis='both', labelsize=15)
 
-        plt.savefig('/home/pi/Desktop/Profiles/' + self.filename + '_up_down.png')
+        plt.savefig('/home/pi/Desktop/Profiles/' + self.filename + '/' + self.filename + '_up_down.png')
 
         plt.close()
 

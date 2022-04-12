@@ -102,9 +102,8 @@ class Profile(object):
                             l_moana = [(int(e.split('.')[0].split('_')[-1]), e) for e in l_moana] # if
                                        # setup_rtd.parameters['Moana_SN'] in e]
                         if len(l_moana) != c_moana:
-                            print('New Moana sensor file transferred to the RPi')
-                            time.sleep(10)
                             if '1' in f_ble.readline():
+                                print('New Moana sensor file completely transferred to the RPi')
                                 l_moana.sort()
                                 l_moana = [e[1] for e in l_moana]  # if setup_rtd.parameters['Moana_SN'] in e[1]]
                                 l_rec_file = l_moana[c_moana:]

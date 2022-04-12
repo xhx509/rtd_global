@@ -5,7 +5,7 @@ from bluepy import btle
 from mat.ble.bluepy.moana_logger_controller import LoggerControllerMoana
 
 # mac = 'cc:67:b3:bf:d3:66'
-mac = 'D5:E8:6D:A0:FC:9D'
+macs = ['D5:E8:6D:A0:FC:9D']
 
 
 def just_delete_file_n_time_sync():
@@ -85,7 +85,8 @@ while True:
     except OSError as error:
         pass
 
-    full_demo(files_fol, mac)
-    time.sleep(5)
+    for mac in macs:
+        full_demo(files_fol, mac)
+        time.sleep(5)
 
 
