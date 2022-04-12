@@ -146,7 +146,7 @@ class Profile(object):
             if conn_type:  # wifi
                 print('There is internet connection')
                 Transfer('/home/ec2-user/rtd/vessels/{vess}/merged/{sensor}/'.format(
-                    vess=setup_rtd.parameters['vessel_name'], sensor=sensor)).upload(
+                    vess=self.vessel_name, sensor=sensor)).upload(
                     'merged/{sensor}/'.format(sensor=sensor) + filename, filename)
                 print('Data transferred successfully to the AWS endpoint')
             else:
