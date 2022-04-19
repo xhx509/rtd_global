@@ -23,7 +23,7 @@ def just_delete_file_n_time_sync():
     lc.close()
 
 
-def full_demo(fol, mac):
+def full_demo(mac):
     lc = LoggerControllerMoana(mac)
     if not lc.open():
         # print('connection error')
@@ -44,14 +44,12 @@ def full_demo(fol, mac):
 
     name_bin_local = lc.file_save(data)
     if name_bin_local:
-        print('saved as {}'.format(name_bin_local))
+        print('saved as {}'.format(name_csv_moana))
 
-        name_csv_local = lc.file_cnv(name_bin_local, fol, len(data))
+        name_csv_local = lc.file_cnv(name_bin_local, name_csv_moana, len(data))
 
         if name_csv_local:
             print('conversion OK')
-            p = '{}/{}'.format(fol, name_csv_local)
-            print('output files -> {}*'.format(p))
         else:
             print('conversion error')
 
@@ -76,17 +74,11 @@ def full_demo(fol, mac):
 # devices = scanner.scan(10
 # the name that the scan searches for
 scanName = "ZT-MOANA"
-print('reaching moana {}...'.format(mac))
+print('reaching moana {}...'.format(macs))
 
 while True:
-    files_fol = str(Path.home()) + '/rtd_global/moana_demo'
-    try:
-        os.mkdir(files_fol)
-    except OSError as error:
-        pass
-
     for mac in macs:
-        full_demo(files_fol, mac)
+        full_demo(mac)
         time.sleep(5)
 
 

@@ -47,10 +47,7 @@ class Profile(object):
 
             # Moana necessary variables
             elif sensor == 'Moana':
-                l_moana = os.listdir(self.path + 'logs/raw/Moana')
-                # l_moana = [(int(e.split('.')[0].split('_')[-1]), e) for e in l_moana] # if
-                           # setup_rtd.parameters['Moana_SN'] in e]
-                c_moana = len(l_moana)
+                d_moana_ini = {sn: os.listdir(self.path + 'logs/raw/Moana/' + sn) for sn in os.listdir(self.path + 'logs/raw/Moana/')}
 
             # Lowell necessary variable
             elif sensor == 'Lowell':
@@ -77,15 +74,12 @@ class Profile(object):
                             logging.debug('New file downloading: ')
                             l_rec_file = ftp_conn.transfer()
                             logging.debug('Downloading completed ' + l_rec_file[0])
-
                             logging.debug('Adding data to gps file')
                             print('Adding data to gps file')
                             gps.store_all_csv()
 
                             self.connect_wireless(l_rec_file)
-
                             ldata = Merge().merge(l_rec_file, sensor, self.gear)  # set sensor type as WiFi or Bluetooth
-
                             self.cloud(ldata, sensor)
 
                             print('waiting...')
@@ -97,30 +91,36 @@ class Profile(object):
 
                 elif sensor == 'Moana':
                     with open(self.path + 'status.txt') as f_ble:
-                        l_moana = os.listdir(self.path + 'logs/raw/Moana')
-                        if len(l_moana) > 0:
-                            l_moana = [(int(e.split('.')[0].split('_')[-1]), e) for e in l_moana] # if
-                                       # setup_rtd.parameters['Moana_SN'] in e]
-                        if len(l_moana) != c_moana:
-                            if '1' in f_ble.readline():
-                                print('New Moana sensor file completely transferred to the RPi')
-                                l_moana.sort()
-                                l_moana = [e[1] for e in l_moana]  # if setup_rtd.parameters['Moana_SN'] in e[1]]
-                                l_rec_file = l_moana[c_moana:]
-                                c_moana = len(l_moana)
-                                logging.debug('Adding data to gps file')
-                                print('Adding data to gps file')
-                                gps.store_all_csv()
+                        d_moana = {sn: os.listdir(self.path + 'logs/raw/Moana/' + sn) for sn in os.listdir(self.path + 'logs/raw/Moana/')}
+                        l_rec_file = []
+                        if len(d_moana_ini) != len(d_moana):
+                            sn_news = [sn for sn in d_moana if sn not in d_moana_ini]
+                            for sn_new in sn_news:
+                                if '1' in f_ble.readline():
+                                    l_rec_file = [sn_new + '/' + file for file in d_moana[sn_new]]
+                                    l_rec_file.sort()
+                        else:
+                            for sn in d_moana:
+                                if len(d_moana_ini[sn]) != len(d_moana[sn]):
+                                    if '1' in f_ble.readline():
+                                        l_rec_file = [sn + '/' + file for file in d_moana[sn] if file not in d_moana_ini[sn]]
+                                        l_rec_file.sort()
 
-                                self.connect_wireless(l_rec_file, sensor)
+                        if len(l_rec_file) > 0:
+                            print('New Moana sensor file completely transferred to the RPi')
+                            logging.debug('Adding data to gps file')
+                            print('Adding data to gps file')
+                            gps.store_all_csv()
 
-                                ldata = Merge().merge(l_rec_file, sensor,
-                                                      self.gear)  # set sensor type as WiFi or Bluetooth
+                            self.connect_wireless(l_rec_file, sensor)
+                            ldata = Merge().merge(l_rec_file, sensor,
+                                                  self.gear)  # set sensor type as WiFi or Bluetooth
 
-                                # leMOLT = [self.add_eMOLT_header(e[0], e[1], sensor) for e in ldata]  # creates files with eMOLT format
-                                # self.eMOLT_cloud(leMOLT)  # sends merged data to eMOLT endpoint
-                                self.cloud(ldata, sensor)
-                                print('waiting for the next profile...')
+                            # leMOLT = [self.add_eMOLT_header(e[0], e[1], sensor) for e in ldata]  # creates files with eMOLT format
+                            # self.eMOLT_cloud(leMOLT)  # sends merged data to eMOLT endpoint
+                            self.cloud(ldata, sensor)
+                            d_moana_ini = d_moana.copy()
+                            print('waiting for the next profile...')
 
                 elif sensor == 'Lowell':  # there are more than one type of sensor onboard
                     ln_lowell = os.listdir(self.path + 'logs/raw/Lowell')
@@ -169,7 +169,7 @@ class Profile(object):
 
             for file in l_rec_file:
                 Transfer('/home/ec2-user/rtd/vessels/' + self.vessel_name + '/').upload(
-                    'logs/raw/{sensor}/'.format(sensor=sensor) + file, 'sensor/{sensor}/'.format(sensor=sensor) + file)
+                    'logs/raw/{sensor}/'.format(sensor=sensor) + file, 'sensor/{sensor}/'.format(sensor=sensor) + file.split('/')[-1])
 
     def eMOLT_cloud(self, ldata):
         for filename, df in ldata:

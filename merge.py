@@ -24,6 +24,7 @@ class Load(object):
     def parse_profiles(self, data, file, sensor):
         l = []
         if sensor == 'Moana':
+            file = file.split('/')[-1]
             moana, sn, num = file.split('.')[0].split('_')
         elif sensor == 'Lowell':
             lowell, sn, date, time = file.split('.')[0].split('_')
@@ -168,10 +169,10 @@ class Merge(Load):
         ldata = []
         for file in l_rec_files:
             data, data_info = Standardize(sensor, file, self.path).data, Standardize(sensor, file, self.path).data_info
-            try:
-                data_info.to_csv(self.path + 'sensor/sensor_info/' + file, index=None, header=True)
-            except ValueError:
-                pass
+            #try:
+            #    data_info.to_csv(self.path + 'sensor/sensor_info/' + file, index=None, header=True)
+            #except ValueError:
+            #    pass
             l_prof = self.parse_profiles(data, file, sensor)
             for filename, data in l_prof:
                 data = data[data['PRESSURE'] > 0]
