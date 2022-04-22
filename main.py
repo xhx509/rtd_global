@@ -151,7 +151,7 @@ class Profile(object):
             else:
                 logging.debug('There is no network available')
                 print('There is no network available, merged data has not been uploaded, queued routine will try to upload the data later')
-                df.to_csv(self.path + 'queued/{sensor}'.format(sensor=sensor) + filename, index=False)
+                df.to_csv(self.path + 'queued/{sensor}/'.format(sensor=sensor) + filename, index=False)
             self.tow_num += 1
 
     def connect_wireless(self, l_rec_file, sensor):
