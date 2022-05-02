@@ -16,6 +16,7 @@ import setup_rtd
 class Plotting(object):
     def __init__(self, profile):
         self.df = profile
+        self.path = '/'.join(setup_rtd.parameters['path'].split('/')[:2]) + '/'
         if len(self.df) > 0:
             if setup_rtd.parameters['tem_unit'] == 'Fahrenheit':
                 self.df['TEMPERATURE'] = self.df['TEMPERATURE'] * 1.8 + 32
@@ -40,7 +41,7 @@ class Plotting(object):
 
     def plot_profile(self):
         try:
-            os.mkdir('/home/pi/Desktop/Profiles/' + self.filename)
+            os.mkdir(self.path + 'Desktop/Profiles/' + self.filename)
         except:
             pass
         fig, ax_c = plt.subplots(figsize=(15, 9))
@@ -81,7 +82,7 @@ class Plotting(object):
 
         plt.tick_params(axis='both', labelsize='large')
 
-        plt.savefig('/home/pi/Desktop/Profiles/' + self.filename + '/' + self.filename + '_profile.png')
+        plt.savefig(self.path + 'Desktop/Profiles/' + self.filename + '_profile.png')
 
         plt.close()
 
@@ -140,7 +141,7 @@ class Plotting(object):
 
         plt.tick_params(axis='both', labelsize=15)
 
-        plt.savefig('/home/pi/Desktop/Profiles/' + self.filename + '/' + self.filename + '_up_down.png')
+        plt.savefig(self.path + 'Desktop/Profiles/' + self.filename + '_up_down.png')
 
         plt.close()
 

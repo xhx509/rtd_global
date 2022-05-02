@@ -3,10 +3,10 @@ import time
 from pathlib import Path
 from bluepy import btle
 from mat.ble.bluepy.moana_logger_controller import LoggerControllerMoana
+import setup_rtd
 
-# mac = 'cc:67:b3:bf:d3:66'
-macs = ['D5:E8:6D:A0:FC:9D']
-
+path = setup_rtd.parameters['path']
+macs = ['']
 
 def just_delete_file_n_time_sync():
     print('reaching moana to time sync {}...'.format(mac))
@@ -35,7 +35,7 @@ def full_demo(mac):
 
     print('Status file changed to 0')
 
-    g = open('/home/pi/rtd_global/status.txt', 'w')
+    g = open(path + 'status.txt', 'w')
     g.write('0')
     g.close()
 
@@ -63,7 +63,7 @@ def full_demo(mac):
         print('error file_clear')
 
     time.sleep(20)
-    g = open('/home/pi/rtd_global/status.txt', 'w')
+    g = open(path + 'status.txt', 'w')
     g.write('1')
     g.close()
     print('Status file changed to 1')

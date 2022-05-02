@@ -1,5 +1,5 @@
 import os
-
+import setup_rtd
 
 def CreateEmptyDirectories(path):
     lrtd = ['gps', 'logs', 'merged', 'queued', 'sensor']
@@ -47,6 +47,6 @@ def CreateEmptyDirectories(path):
                     pass
 
 
-path = '/home/pi/rtd_global/'
+path = setup_rtd.parameters['path']
 CreateEmptyDirectories(path)
 
