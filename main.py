@@ -77,8 +77,10 @@ class Profile(object):
                             logging.debug('Adding data to gps file')
                             print('Adding data to gps file')
                             gps.store_all_csv()
-
-                            self.connect_wireless(l_rec_file)
+                            try:
+                                self.connect_wireless(l_rec_file, sensor)
+                            except:
+                                pass
                             ldata = Merge().merge(l_rec_file, sensor, self.gear)  # set sensor type as WiFi or Bluetooth
                             self.cloud(ldata, sensor)
 
@@ -112,7 +114,10 @@ class Profile(object):
                             print('Adding data to gps file')
                             gps.store_all_csv()
 
-                            self.connect_wireless(l_rec_file, sensor)
+                            try:
+                                self.connect_wireless(l_rec_file, sensor)
+                            except:
+                                pass
                             ldata = Merge().merge(l_rec_file, sensor,
                                                   self.gear)  # set sensor type as WiFi or Bluetooth
 

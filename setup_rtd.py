@@ -1,12 +1,12 @@
 parameters = {'path': '/home/pi/rtd_global/',
               'sensor_type': ['Moana'],
               'time_diff_nke': 0,
-              'vessel_name': 'Mister_G',
+              'vessel_name': '',
               'gear_type': 'Mobile',
               'tem_unit': 'Fahrenheit',
               'depth_unit': 'Fathoms',
-              'moana_SN': '0057',
-              'local_time': -5}
+              'moana_SN': '',
+              'local_time': }
 
 #14                       logger time range(minutes), set it to 5 , during the test. Set it to the shortest haul time. $
 #6                        Fathom, Set to 0 for test, set to 15 after the test

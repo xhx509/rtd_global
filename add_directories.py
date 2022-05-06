@@ -39,6 +39,15 @@ def CreateEmptyDirectories(path):
                             os.mkdir(path + rtd + '/' + merged + '/' + eMOLT)
                         except:
                             pass
+
+        elif rtd == 'queued':
+            for raw in lraw:
+                try:
+                    os.mkdir(path + rtd + '/' + raw)
+                except:
+                    pass
+
+
         elif rtd == 'sensor':
             for sensor in lsensor:
                 try:
