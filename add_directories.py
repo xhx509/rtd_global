@@ -2,7 +2,7 @@ import os
 import setup_rtd
 
 def CreateEmptyDirectories(path):
-    lrtd = ['gps', 'logs', 'merged', 'queued', 'sensor']
+    lrtd = ['gps', 'logs', 'merged', 'moana_log', 'queued', 'sensor']
     llogs = ['gps', 'no_rtd', 'raw', 'sensor']
     lraw = ['Lowell', 'Moana', 'NKE']
     lmerged = ['eMOLT', 'Lowell', 'Moana', 'NKE', 'zip']

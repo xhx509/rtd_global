@@ -176,6 +176,19 @@ class Profile(object):
                 Transfer('/home/ec2-user/rtd/vessels/' + self.vessel_name + '/').upload(
                     'logs/raw/{sensor}/'.format(sensor=sensor) + file, 'sensor/{sensor}/'.format(sensor=sensor) + file.split('/')[-1])
 
+    def dd2dms(self, dd):
+        mnt, sec = divmod(dd*3600, 60)
+        deg, mnt = divmod(mnt, 60)
+        mnts = '0' + str(int(mnt)) if len(str(int(mnt))) == 1 else str(int(mnt))
+        return str(int(deg)) + str(int(mnt)) + '.' + str(int(sec*1000))[:4]
+
+    def satellite(self, dev, msg):
+        device = self.list_ports(dev)
+        rb = rockBlock.rockBlock(device, self)
+        rb.sendMessage(msg)
+        rb.close()
+        time.sleep(5)
+
     def eMOLT_cloud(self, ldata):
         for filename, df in ldata:
             # print u

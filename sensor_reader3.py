@@ -42,7 +42,7 @@ def full_demo(mac):
     print('downloading file {}...'.format(name_csv_moana))
     data = lc.file_get()
 
-    name_bin_local = lc.file_save(data)
+    name_bin_local = lc.file_save(path + 'moana_log/', data)
     if name_bin_local:
         print('saved as {}'.format(name_csv_moana))
 
