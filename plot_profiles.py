@@ -23,7 +23,7 @@ class Plotting(object):
             if setup_rtd.parameters['depth_unit'] == 'Fathoms':
                 self.df['PRESSURE'] = self.df['PRESSURE'] * 0.546807
             self.df['DATETIME'] += timedelta(hours=setup_rtd.parameters['local_time'])
-            self.filename = self.df.iloc[-1]['DATETIME'].strftime('%y-%m-%d %H:%M')
+            self.filename = self.df.iloc[-1]['DATETIME'].strftime('%y-%m-%d %H%M')
             try:
                 self.plot_profile()
             except:
